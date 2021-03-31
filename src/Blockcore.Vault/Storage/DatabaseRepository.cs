@@ -112,6 +112,12 @@ namespace Blockcore.Vault.Storage
                BlockLocator  TEXT NULL)");
 
                 conn.Connection.Execute(
+                    @$"CREATE TABLE ItemData(
+               Id       VARCHAR(64) NOT NULL PRIMARY KEY,
+               Data     VARCHAR(500) NULL,
+               Owner    VARCHAR(100) NULL)");
+
+                conn.Connection.Execute(
                     @$"CREATE TABLE TransactionData(
                 OutPoint                                           VARCHAR(66) NOT NULL PRIMARY KEY,
                 Address                                            VARCHAR(34) NOT NULL,
@@ -208,6 +214,132 @@ namespace Blockcore.Vault.Storage
             }
 
             return this.VaultData;
+        }
+
+        public int GetItemDataCount()
+        {
+            using var conn = db.CreateConnection();
+
+            return conn.Connection.QueryFirst<int>("SELECT COUNT(*) FROM ItemData");
+        }
+
+        public ItemData GetSingleItemData(int id)
+        {
+            using var conn = db.CreateConnection();
+
+            var query = conn.Connection.Query<ItemData>(
+                "SELECT * FROM TransactionData " +
+                "WHERE Id = @id",
+                new { id });
+
+            return query.SingleOrDefault();
+        }
+
+        public List<ItemData> GetItemData(int skip = 0, int take = 100)
+        {
+            // The result of this method is not guaranteed to be the length
+            //  of the 'take' param. In case some of the inputs we have are
+            // in the same trx they will be grouped in to a single entry.
+            using var conn = db.CreateConnection();
+            conn.Connection.Open();
+
+            var sql = @$"SELECT * FROM ItemData
+                      ORDER BY Owner DESC
+                      LIMIT @take OFFSET @skip";
+
+            var historySpentResult = conn.Connection.Query<ItemData>(sql, new { skip, take }).ToList();
+
+            return historySpentResult;
+
+            // var historySpent = historySpentResult.Select(this.Convert);
+
+            // return items.OrderByDescending(x => x.CreationTime).ThenBy(x => x.BlockIndex);
+
+            //sql = @$"SELECT * FROM TransactionData
+            //      WHERE AccountIndex == @accountIndex
+            //      {(excludeColdStake ? "AND (IsColdCoinStake = false OR IsColdCoinStake is null) " : "")}
+            //      ORDER BY CreationTime DESC
+            //      LIMIT @take OFFSET @skip";
+
+            //var historyUnspentResult = conn.Query<TransactionData>(sql, new { accountIndex, skip, take }).ToList();
+
+            //conn.Close();
+
+            //var historyUnspent = historyUnspentResult.Select(this.Convert);
+
+            //var items = new List<WalletHistoryData>();
+
+            //items.AddRange(historySpent
+            //    .GroupBy(g => g.SpendingDetails.TransactionId)
+            //           .Select(s =>
+            //           {
+            //               var x = s.First();
+
+            //               return new WalletHistoryData
+            //               {
+            //                   IsSent = true,
+            //                   SentTo = x.SpendingDetails.TransactionId,
+            //                   IsCoinStake = x.SpendingDetails.IsCoinStake,
+            //                   CreationTime = x.SpendingDetails.CreationTime,
+            //                   BlockHeight = x.SpendingDetails.BlockHeight,
+            //                   BlockIndex = x.SpendingDetails.BlockIndex,
+            //                   SentPayments = x.SpendingDetails.Payments?.Select(p => new WalletHistoryPaymentData
+            //                   {
+            //                       Amount = p.Amount,
+            //                       PayToSelf = p.PayToSelf,
+            //                       DestinationAddress = p.DestinationAddress
+            //                   }).ToList(),
+
+            //                   // when spent the amount represents the
+            //                   // input that was spent not the output
+            //                   Amount = x.Amount
+            //               };
+            //           }));
+
+            //items.AddRange(historyUnspent
+            //    .GroupBy(g => g.Id)
+            //    .Select(s =>
+            //    {
+            //        var x = s.First();
+
+            //        var ret = new WalletHistoryData
+            //        {
+            //            IsSent = false,
+            //            OutPoint = x.OutPoint,
+            //            BlockHeight = x.BlockHeight,
+            //            BlockIndex = x.BlockIndex,
+            //            IsCoinStake = x.IsCoinStake,
+            //            CreationTime = x.CreationTime,
+            //            ScriptPubKey = x.ScriptPubKey,
+            //            Address = x.Address,
+            //            Amount = x.Amount,
+            //            IsCoinBase = x.IsCoinBase,
+            //            IsColdCoinStake = x.IsColdCoinStake,
+            //        };
+
+            //        if (s.Count() > 1)
+            //        {
+            //            ret.Amount = s.Sum(b => b.Amount);
+            //            ret.ReceivedOutputs = s.Select(b => new WalletHistoryData
+            //            {
+            //                IsSent = false,
+            //                OutPoint = b.OutPoint,
+            //                BlockHeight = b.BlockHeight,
+            //                BlockIndex = b.BlockIndex,
+            //                IsCoinStake = b.IsCoinStake,
+            //                CreationTime = b.CreationTime,
+            //                ScriptPubKey = b.ScriptPubKey,
+            //                Address = b.Address,
+            //                Amount = b.Amount,
+            //                IsCoinBase = b.IsCoinBase,
+            //                IsColdCoinStake = b.IsColdCoinStake,
+            //            }).ToList();
+            //        }
+
+            //        return ret;
+            //    }));
+
+            //return items.OrderByDescending(x => x.CreationTime).ThenBy(x => x.BlockIndex);
         }
 
         //public SqliteConnection CreateConnection()

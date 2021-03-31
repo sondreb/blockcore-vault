@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Blockcore.Vault.Models;
+using Dapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,25 @@ namespace Blockcore.Vault.Storage
         {
             this.db = db;
         }
-     
+
         public void GetAll()
         {
             db.GetForAddress("");
+        }
+
+        public List<ItemData> GetItemData(int skip = 0, int take = 100)
+        {
+            return db.GetItemData(skip, take);
+        }
+
+        public int GetItemDataCount()
+        {
+            return db.GetItemDataCount();
+        }
+
+        public ItemData GetSingleItemData(int id)
+        {
+            return db.GetSingleItemData(id);
         }
     }
 }

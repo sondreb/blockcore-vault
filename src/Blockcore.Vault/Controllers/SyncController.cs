@@ -1,4 +1,8 @@
-﻿using Blockcore.Vault.Storage;
+﻿using Blockcore.Vault.Filters;
+using Blockcore.Vault.Helpers;
+using Blockcore.Vault.Models;
+using Blockcore.Vault.Services;
+using Blockcore.Vault.Storage;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,18 +17,44 @@ namespace Blockcore.Vault.Controllers
     public class SyncController : ControllerBase
     {
         private readonly DataStore store;
+        private readonly IUriService uriService;
 
-        public SyncController(DataStore store)
+        public SyncController(DataStore store, IUriService uriService)
         {
             this.store = store;
+            this.uriService = uriService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("items")]
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationFilter filter)
         {
-            store.GetAll();
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            return Ok(1);
+            var items = store.GetItemData((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize);
+
+            //var pagedData = await context.Customers
+            //   .Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+            //   .Take(validFilter.PageSize)
+            //   .ToListAsync();
+
+            var totalRecords = store.GetItemDataCount(); //await context.Customers.CountAsync();
+
+            var pagedReponse = PaginationHelper.CreatePagedReponse<ItemData>(items, validFilter, totalRecords, uriService, route);
+
+            return Ok(pagedReponse);
+
+            //store.GetAll();
+
+            //return Ok(1);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var item = store.GetSingleItemData(id);
+            // var customer = await context.Customers.Where(a => a.Id == id).FirstOrDefaultAsync();
+            return Ok(new Response<ItemData>(item));
         }
     }
 }
