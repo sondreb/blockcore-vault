@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockcore.Vault", "src\Blockcore.Vault\Blockcore.Vault.csproj", "{5AA40EF2-7E30-41FD-9BC0-6E8DE8B5EF86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Vault", "src\Blockcore.Vault\Blockcore.Vault.csproj", "{05151E58-0CB2-4511-98E3-93C1687EAC58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockcore.Vault.Tests", "src\Blockcore.Vault.Tests\Blockcore.Vault.Tests.csproj", "{BFE6892F-DA39-40EF-AC13-850942D16D91}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Vault.ConsoleApp", "src\Blockcore.Vault.ConsoleApp\Blockcore.Vault.ConsoleApp.csproj", "{41DE5194-AA31-4589-B8B5-15DE94366B40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockcore.Vault.Tests", "src\Blockcore.Vault.Tests\Blockcore.Vault.Tests.csproj", "{6CADA1C4-E155-412D-A2ED-84E1134B323E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5AA40EF2-7E30-41FD-9BC0-6E8DE8B5EF86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AA40EF2-7E30-41FD-9BC0-6E8DE8B5EF86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AA40EF2-7E30-41FD-9BC0-6E8DE8B5EF86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AA40EF2-7E30-41FD-9BC0-6E8DE8B5EF86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFE6892F-DA39-40EF-AC13-850942D16D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFE6892F-DA39-40EF-AC13-850942D16D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFE6892F-DA39-40EF-AC13-850942D16D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFE6892F-DA39-40EF-AC13-850942D16D91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41DE5194-AA31-4589-B8B5-15DE94366B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41DE5194-AA31-4589-B8B5-15DE94366B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41DE5194-AA31-4589-B8B5-15DE94366B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41DE5194-AA31-4589-B8B5-15DE94366B40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05151E58-0CB2-4511-98E3-93C1687EAC58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05151E58-0CB2-4511-98E3-93C1687EAC58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05151E58-0CB2-4511-98E3-93C1687EAC58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05151E58-0CB2-4511-98E3-93C1687EAC58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CADA1C4-E155-412D-A2ED-84E1134B323E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CADA1C4-E155-412D-A2ED-84E1134B323E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CADA1C4-E155-412D-A2ED-84E1134B323E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CADA1C4-E155-412D-A2ED-84E1134B323E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {59454326-D139-4E0D-B541-D468532984FE}
+		SolutionGuid = {164968F9-D7F8-4211-959C-DAF535E677FC}
 	EndGlobalSection
 EndGlobal
