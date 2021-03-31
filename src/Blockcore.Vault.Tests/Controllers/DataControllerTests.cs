@@ -20,12 +20,15 @@ namespace Blockcore.Vault.Tests.Controllers
     public class DataControllerTests : IClassFixture<AppTestFixture>
     {
         readonly AppTestFixture fixture;
-        readonly HttpClient client;
+        // readonly HttpClient client;
+        private static HttpClient client;
 
         public DataControllerTests(AppTestFixture fixture)
         {
             this.fixture = fixture;
-            client = fixture.CreateClient();
+
+            // Reuse the client cross tests.
+            client ??= fixture.CreateClient();
         }
 
         [Theory]

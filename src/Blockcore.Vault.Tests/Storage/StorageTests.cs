@@ -21,12 +21,15 @@ namespace Blockcore.Vault.Tests.Storage
     public class StorageTests : IClassFixture<AppTestFixture>
     {
         readonly AppTestFixture fixture;
-        readonly HttpClient client;
+        // readonly HttpClient client;
+        private static HttpClient client;
 
         public StorageTests(AppTestFixture fixture)
         {
             this.fixture = fixture;
-            client = fixture.CreateClient();
+
+            // Reuse the client cross tests.
+            client ??= fixture.CreateClient();
         }
 
         [Fact]
