@@ -24,8 +24,8 @@ jobs:
       #- uses: aarnott/nbgv@v0.3 # https://github.com/AArnott/nbgv
       #  id: nbgv
 
-      - name: Versioning
-        run: echo ${{ steps.nbgv.outputs.SemVer2 }}
+      #- name: Versioning
+      #  run: echo ${{ steps.nbgv.outputs.SemVer2 }}
 
       - name: Build with dotnet
         #run: dotnet build --configuration ${{ env.BuildConfig }} /p:Version=${{ steps.nbgv.outputs.AssemblyVersion }}
