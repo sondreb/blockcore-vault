@@ -1,0 +1,48 @@
+<Project>
+  <PropertyGroup>
+    <Version>0.0.1</Version>
+    <RuntimeFrameworkVersion>5.0.4</RuntimeFrameworkVersion>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Authors>Blockcore</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.blockcore.net</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/block-core/blockcore-vault</RepositoryUrl>
+    <PackageIcon></PackageIcon>
+    <PackageIconUrl>https://www.blockcore.net/assets/blockcore-256x256.png</PackageIconUrl>
+    <PackageTags>blockchain;cryptocurrency;crypto;C#;.NET;bitcoin;blockcore;data;datavault;confidentialstorage;storage</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+  </ItemGroup>-->
+
+  <!--<Target Name="AddInternalsVisibleTo" BeforeTargets="CoreCompile">
+    <ItemGroup>
+
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+        <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+      </AssemblyAttribute>
+
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+        <_Parameter1>$(PackageId).Tests</_Parameter1>
+      </AssemblyAttribute>
+
+      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+        <_Parameter1>$(MSBuildProjectName).Tests</_Parameter1>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1591;1572;1573;1574</NoWarn>
+    <DocumentationFile></DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>-->
+</Project>

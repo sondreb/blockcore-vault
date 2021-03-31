@@ -56,5 +56,15 @@ namespace Blockcore.Vault.Tests.Controllers
             // Assert: Should be bad request.
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        [Fact]
+        public async void Get_List_Success()
+        {
+            // Act
+            var response = await client.GetAsync("/api/data/list");
+
+            // Assert: Should be bad request.
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
     }
 }
