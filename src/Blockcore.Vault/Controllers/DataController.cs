@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Blockcore.Vault.Storage;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,17 @@ namespace Blockcore.Vault.Controllers
     [Route("api/data")]
     public class DataController : ControllerBase
     {
-        public DataController()
-        {
+        private readonly IMoney money;
 
+        public DataController(IMoney money)
+        {
+            this.money = money;
+        }
+
+        [HttpGet("all")]
+        public ActionResult GetAll()
+        {
+            return Ok(money.GetAll());
         }
 
         [HttpGet("{id}")]

@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Blockcore.Vault.Storage;
+using Microsoft.AspNetCore.TestHost;
+using Blockcore.Vault.Tests.Fakes;
 
 namespace Blockcore.Vault.Tests.Storage
 {
@@ -33,11 +35,40 @@ namespace Blockcore.Vault.Tests.Storage
         }
 
         [Fact]
-        public void Get_AllTheMoney_Success()
+        public void Get_AllTheMoneyUnit_Success()
         {
             var money = this.fixture.Services.GetService<IMoney>();
 
             Assert.Equal(int.MaxValue, money.GetAll());
+        }
+
+        [Fact]
+        public async void Get_AllTheMoney_Override_Success()
+        {
+            var response = await client.GetAsync("/api/data/all");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            Assert.Equal(int.MaxValue.ToString(), await response.Content.ReadAsStringAsync());
+        }
+
+        [Fact]
+        public async void Get_AllTheMoney_Success()
+        {
+            // Arrange with override of IMoney
+            var client = fixture.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<IMoney, TestMoney>();
+                });
+            }).CreateClient();
+
+            var response = await client.GetAsync("/api/data/all");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            Assert.Equal("0", await response.Content.ReadAsStringAsync());
         }
     }
 }
