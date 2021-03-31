@@ -1,0 +1,33 @@
+name: Build
+
+on:
+    push:
+      branches:
+        - master
+    pull_request:
+      branches:
+        - master
+
+env:
+  BuildConfig: Release
+  SolutionFile: Blockcore.Vault.sln
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+      
+      - uses: aarnott/nbgv@v0.3 # https://github.com/AArnott/nbgv
+        id: nbgv
+
+      - name: Versioning
+        run: echo ${{ steps.nbgv.outputs.SemVer2 }}
+
+      - name: Build with dotnet
+        run: dotnet build --configuration ${{ env.BuildConfig }} /p:Version=${{ steps.nbgv.outputs.AssemblyVersion }}
+
+      - name: Test with dotnet
+        run: dotnet test ${{ env.SolutionFile }}
