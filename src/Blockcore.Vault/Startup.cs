@@ -29,8 +29,10 @@ namespace Blockcore.Vault
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
+            services.AddScoped<DatabaseRepository>();
+            services.AddScoped<DataStore>();
             services.AddScoped<IMoney, Money>();
-            services.AddScoped<IDatabaseFactory, DatabaseFactory>();
             services.AddResponseCompression();
             services.AddMemoryCache();
             //services.AddHostedService<SyncServer>();

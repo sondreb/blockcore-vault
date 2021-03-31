@@ -38,11 +38,12 @@ namespace Blockcore.Vault.Tests
         {
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDatabaseFactory));
+                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDatabaseConnectionFactory));
 
                 services.Remove(descriptor);
 
-                services.AddScoped<IDatabaseFactory, InMemoryDatabaseFactory>();
+                services.AddScoped<IDatabaseConnectionFactory, InMemoryDatabaseFactory>();
+                // services.AddScoped<DatabaseRepository>();
 
                 //services.AddDbContext<ApplicationDbContext>(options =>
                 //{

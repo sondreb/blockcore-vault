@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blockcore.Vault.Tests.Storage
 {
-    public class InMemoryDatabaseFactory : IDatabaseFactory
+    public class InMemoryDatabaseFactory : IDatabaseConnectionFactory, IDisposable
     {
         private readonly string dbConnection;
 
@@ -19,17 +19,35 @@ namespace Blockcore.Vault.Tests.Storage
         /// /// </summary>
         private readonly SqliteConnection inmemorySqliteConnection;
 
+        private readonly InMemoryDatabaseConnection connection;
+
         public InMemoryDatabaseFactory()
         {
             var tmpconn = Guid.NewGuid().ToString();
-            this.dbConnection = $"Data Source={tmpconn};Mode=Memory;Cache=Shared";
-            this.inmemorySqliteConnection = new SqliteConnection(this.dbConnection);
-            this.inmemorySqliteConnection.Open();
+            dbConnection = $"Data Source={tmpconn};Mode=Memory;Cache=Shared";
+
+            connection = new InMemoryDatabaseConnection { Connection = new SqliteConnection(this.dbConnection) };
+
+            // inmemorySqliteConnection = new SqliteConnection(this.dbConnection);
+            connection.Connection.Open();
+            // inmemorySqliteConnection.Open();
         }
 
-        public SqliteConnection CreateConnection()
+        public bool Persistent => false;
+
+        public IDatabaseConnection CreateConnection()
         {
-            return this.inmemorySqliteConnection;
+            return connection;
+        }
+
+        public void Dispose()
+        {
+            this.inmemorySqliteConnection?.Dispose();
+        }
+
+        public void SetConnection(string connection)
+        {
+            
         }
     }
 }

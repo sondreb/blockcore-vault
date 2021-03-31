@@ -13,21 +13,26 @@ namespace Blockcore.Vault.Controllers
     {
         private readonly IMoney money;
 
-        private readonly IDatabaseFactory db;
+        private readonly IDatabaseConnectionFactory db;
 
-        public DataController(IMoney money, IDatabaseFactory db)
+        private readonly DataStore store;
+
+        public DataController(IMoney money, IDatabaseConnectionFactory db, DataStore store)
         {
             this.money = money;
             this.db = db;
+            this.store = store;
         }
 
         [HttpGet("list")]
         public ActionResult GetList()
         {
+            store.GetAll();
+
             var conn = db.CreateConnection();
 
-            conn.Open();
-            conn.Close();
+            conn.Connection.Open();
+            conn.Connection.Close();
 
             return Ok(1);
         }
