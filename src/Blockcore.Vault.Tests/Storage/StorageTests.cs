@@ -34,13 +34,13 @@ namespace Blockcore.Vault.Tests.Storage
             client ??= fixture.CreateClient();
         }
 
-        [Fact]
-        public void Get_AllTheMoneyUnit_Success()
-        {
-            var money = this.fixture.Services.GetService<IMoney>();
+        //[Fact]
+        //public void Get_AllTheMoneyUnit_Success()
+        //{
+        //    var money = this.fixture.Services.GetService<IMoney>();
 
-            Assert.Equal(int.MaxValue, money.GetAll());
-        }
+        //    Assert.Equal(int.MaxValue, money.GetAll());
+        //}
 
         [Fact]
         public async void Get_AllTheMoney_Override_Success()
