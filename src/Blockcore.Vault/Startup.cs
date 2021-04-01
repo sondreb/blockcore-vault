@@ -1,4 +1,6 @@
+using Blockcore.Vault.Managers;
 using Blockcore.Vault.Services;
+using Blockcore.Vault.Settings;
 using Blockcore.Vault.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +33,8 @@ namespace Blockcore.Vault
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SyncSettings>(Configuration.GetSection("Sync"));
+
             services.AddScoped<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
             services.AddScoped<DatabaseRepository>();
             services.AddScoped<DataStore>();
@@ -39,6 +43,10 @@ namespace Blockcore.Vault
             services.AddMemoryCache();
             //services.AddHostedService<SyncServer>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Create a new instance of SyncManager pr. external vault.
+            services.AddTransient<SyncManager>();
+            services.AddHostedService<SyncWorker>();
 
             services.AddSingleton<IUriService>(o =>
             {
