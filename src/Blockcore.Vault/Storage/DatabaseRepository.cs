@@ -249,38 +249,41 @@ namespace Blockcore.Vault.Storage
             return query.SingleOrDefault();
         }
 
-        public List<T> GetItems<T>(string orderBy, int skip = 0, int take = 100)
+        public List<T> GetItems<T>(string orderBy, int pageNumber = 0, int pageSize = 100)
         {
             using var conn = db.CreateConnection();
-            string table = typeof(T).Name;
-
-            var sql = @$"SELECT * FROM {table}
-                      ORDER BY @orderBy DESC
-                      LIMIT @take OFFSET @skip";
-
-            var items = conn.Connection.Query<T>(sql, new { orderBy, skip, take }).ToList();
+            var items = conn.Connection.GetListPaged<T>(pageNumber, pageSize, string.Empty, orderBy).ToList();
             return items;
         }
 
         public T GetItem<T>(string id)
         {
             using var conn = db.CreateConnection();
-            string table = typeof(T).Name;
+            return conn.Connection.Get<T>(id);
+        }
 
-            var query = conn.Connection.Query<T>(
-                $"SELECT * FROM {table} " +
-                "WHERE Id = @id",
-                new { id });
+        public void InsertItem<T>(T item)
+        {
+            using var conn = db.CreateConnection();
+            conn.Connection.Insert<string, T>(item);
+        }
 
-            return query.SingleOrDefault();
+        public void UpdateItem<T>(T item)
+        {
+            using var conn = db.CreateConnection();
+            conn.Connection.Update(item);
+        }
+
+        public void DeleteItem<T>(T item)
+        {
+            using var conn = db.CreateConnection();
+            conn.Connection.Delete(item);
         }
 
         public int GetCount<T>()
         {
             using var conn = db.CreateConnection();
-            string table = typeof(T).Name;
-
-            return conn.Connection.QueryFirst<int>($"SELECT COUNT(*) FROM {table}");
+            return conn.Connection.RecordCount<T>();
         }
 
         public List<ItemData> GetItemData(int skip = 0, int take = 100)

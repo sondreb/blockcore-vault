@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace Blockcore.Vault.Models
         /// <summary>
         /// The public key of a vault server.
         /// </summary>
+        [Key]
+        [Required]
         public string Id { get; set; }
 
         /// <summary>

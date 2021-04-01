@@ -33,7 +33,9 @@ namespace Blockcore.Vault.Controllers
         {
             var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
 
-            var items = store.GetItems<VaultServer>("Name", (validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize);
+            //var items = store.GetItems<VaultServer>("Name", (validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize);
+            var items = store.GetItems<VaultServer>("Name", validFilter.PageNumber, validFilter.PageSize);
+
             var totalRecords = store.GetCount<VaultServer>();
             var pagedReponse = PaginationHelper.CreatePagedReponse(items, validFilter, totalRecords, uriService, Request.Path.Value);
 
@@ -43,13 +45,43 @@ namespace Blockcore.Vault.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(string id)
         {
-            return Ok(store.GetItem<VaultServer>(id));
+            var item = store.GetItem<VaultServer>(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(item);
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromBody] VaultServer item)
+        {
+            store.InsertItem(item);
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(string id)
+        public ActionResult Put([FromBody] VaultServer item)
         {
-            return Ok(store.GetItem<VaultServer>(id));
+            store.UpdateItem(item);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string id)
+        {
+            var item = store.GetItem<VaultServer>(id);
+
+            if (item == null)
+            {
+                throw new ArgumentNullException($"Item not found with id: {id}.");
+            }
+
+            store.DeleteItem(item);
+
+            return Ok(id);
         }
     }
 }
