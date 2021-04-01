@@ -1,7 +1,3 @@
-# blockcore-vault
-
-Data Sync and Storage
-
 <p align="center">
   <p align="center">
     <img src="https://avatars3.githubusercontent.com/u/53176002?s=200&v=4" height="100" alt="Blockcore" />
@@ -13,13 +9,10 @@ Data Sync and Storage
     Cross-Chain Multi-Chain Data Vault
   </p>
   <p align="center">
-      <a href="https://github.com/sondreb/blockcore-vault/actions"><img src="https://github.com/sondreb/blockcore-vault/workflows/Build%20and%20Release%20Binaries/badge.svg" /></a>
-      <a href="https://github.com/sondreb/blockcore-vault/actions"><img src="https://github.com/sondreb/blockcore-vault/workflows/Build%20and%20Release%20Docker%20Image/badge.svg" /></a>
+      <a href="https://github.com/sondreb/blockcore-vault/actions/workflows/build.yml"><img src="https://github.com/sondreb/blockcore-vault/actions/workflows/build.yml/badge.svg" /></a>
   </p>
   <p align="center"><em>Empowering users to keep their data secure and accessible in the modern age.</em></p>
 </p>
-
-[![Build](https://github.com/sondreb/blockcore-vault/actions/workflows/build.yml/badge.svg)](https://github.com/sondreb/blockcore-vault/actions/workflows/build.yml)
 
 # Blockcore Vault
 
