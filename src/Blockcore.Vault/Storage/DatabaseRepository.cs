@@ -103,11 +103,25 @@ namespace Blockcore.Vault.Storage
                 }
 
                 conn.Connection.Execute(
+                @$"CREATE TABLE VaultServer(
+                   Id                      TEXT NOT NULL PRIMARY KEY,
+                   Enabled                 INTEGER NOT NULL,
+                   Name                    TEXT NULL,
+                   Description             TEXT NULL,
+                   Url                     TEXT NULL,
+                   Added                   INTEGER NOT NULL,
+                   Modified                INTEGER NOT NULL,
+                   LastSeen                INTEGER NOT NULL,
+                   LastFullSync            INTEGER NOT NULL,
+                   State                   INTEGER NOT NULL,
+                   WellKnownConfiguration  TEXT NULL)");
+
+                conn.Connection.Execute(
                    @$"CREATE TABLE VaultData(
-               Id            VARCHAR(3) NOT NULL PRIMARY KEY,
-               EncryptedSeed VARCHAR(500) NULL,
-               WalletName    VARCHAR(100) NULL,
-               WalletTip     VARCHAR(75) NULL,
+               Id            TEXT NOT NULL PRIMARY KEY,
+               EncryptedSeed TEXT NULL,
+               WalletName    TEXT NULL,
+               WalletTip     TEXT NULL,
                DatabaseVersion INTEGER NOT NULL,
                BlockLocator  TEXT NULL)");
 
@@ -235,11 +249,42 @@ namespace Blockcore.Vault.Storage
             return query.SingleOrDefault();
         }
 
+        public List<T> GetItems<T>(string orderBy, int skip = 0, int take = 100)
+        {
+            using var conn = db.CreateConnection();
+            string table = typeof(T).Name;
+
+            var sql = @$"SELECT * FROM {table}
+                      ORDER BY @orderBy DESC
+                      LIMIT @take OFFSET @skip";
+
+            var items = conn.Connection.Query<T>(sql, new { orderBy, skip, take }).ToList();
+            return items;
+        }
+
+        public T GetItem<T>(string id)
+        {
+            using var conn = db.CreateConnection();
+            string table = typeof(T).Name;
+
+            var query = conn.Connection.Query<T>(
+                $"SELECT * FROM {table} " +
+                "WHERE Id = @id",
+                new { id });
+
+            return query.SingleOrDefault();
+        }
+
+        public int GetCount<T>()
+        {
+            using var conn = db.CreateConnection();
+            string table = typeof(T).Name;
+
+            return conn.Connection.QueryFirst<int>($"SELECT COUNT(*) FROM {table}");
+        }
+
         public List<ItemData> GetItemData(int skip = 0, int take = 100)
         {
-            // The result of this method is not guaranteed to be the length
-            //  of the 'take' param. In case some of the inputs we have are
-            // in the same trx they will be grouped in to a single entry.
             using var conn = db.CreateConnection();
             conn.Connection.Open();
 

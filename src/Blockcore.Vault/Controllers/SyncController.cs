@@ -16,10 +16,10 @@ namespace Blockcore.Vault.Controllers
     [Route("/api/sync")]
     public class SyncController : ControllerBase
     {
-        private readonly DataStore store;
+        private readonly DatabaseRepository store;
         private readonly IUriService uriService;
 
-        public SyncController(DataStore store, IUriService uriService)
+        public SyncController(DatabaseRepository store, IUriService uriService)
         {
             this.store = store;
             this.uriService = uriService;

@@ -37,7 +37,7 @@ namespace Blockcore.Vault
 
             services.AddScoped<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
             services.AddScoped<DatabaseRepository>();
-            services.AddScoped<DataStore>();
+            // services.AddScoped<DataStore>();
             services.AddScoped<IMoney, Money>();
             services.AddResponseCompression();
             services.AddMemoryCache();
