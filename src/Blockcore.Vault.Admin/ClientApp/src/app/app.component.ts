@@ -57,6 +57,12 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver) {
 
+    let path = localStorage.getItem('path');
+    if (path) {
+      localStorage.removeItem('path');
+      this.router.navigate([path]);
+    }
+
     // Get the name to display in loading screen!
     this.getName();
 
