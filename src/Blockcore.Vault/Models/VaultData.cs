@@ -10,5 +10,10 @@ namespace Blockcore.Vault.Models
         public int Id { get; set; }
 
         public int DatabaseVersion { get; set; }
+
+        /// <summary>
+        /// This is the identity of the current vault server instance and is used to retrieve the correct .well-known configuration from the VaultServer table.
+        /// </summary>
+        public string Identity { get; set; }
     }
 }

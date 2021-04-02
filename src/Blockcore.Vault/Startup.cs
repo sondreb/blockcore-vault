@@ -1,3 +1,4 @@
+using Blockcore.Vault.Authentication;
 using Blockcore.Vault.Managers;
 using Blockcore.Vault.Services;
 using Blockcore.Vault.Settings;
@@ -34,6 +35,7 @@ namespace Blockcore.Vault
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<SyncSettings>(Configuration.GetSection("Sync"));
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
 
             services.AddScoped<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
             services.AddScoped<DatabaseRepository>();
@@ -43,6 +45,14 @@ namespace Blockcore.Vault
             services.AddMemoryCache();
             //services.AddHostedService<SyncServer>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+            }).AddApiKeySupport(options => { });
+
+            services.AddSingleton<IGetApiKeyQuery, AppSettingsGetApiKeyQuery>();
 
             // Create a new instance of SyncManager pr. external vault.
             services.AddTransient<SyncManager>();
@@ -61,6 +71,32 @@ namespace Blockcore.Vault
             {
                 string assemblyVersion = typeof(Startup).Assembly.GetName().Version.ToString();
 
+                c.AddSecurityDefinition(ApiKeyConstants.HeaderName, new OpenApiSecurityScheme
+                {
+                    Description = $"API key needed to access the endpoints. {ApiKeyConstants.HeaderName}: YOUR_KEY",
+                    In = ParameterLocation.Header,
+                    Name = ApiKeyConstants.HeaderName,
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
+                            {
+                                new OpenApiSecurityScheme
+                                {
+                                    Name = ApiKeyConstants.HeaderName,
+                                    Type = SecuritySchemeType.ApiKey,
+                                    In = ParameterLocation.Header,
+                                    Reference = new OpenApiReference
+                                    {
+                                        Type = ReferenceType.SecurityScheme,
+                                        Id = ApiKeyConstants.HeaderName
+                                    },
+                                 },
+                                 new string[] {}
+                             }
+                        });
+
                 c.SwaggerDoc("vault", new OpenApiInfo { Title = "Blockcore.Vault", Version = assemblyVersion });
 
                 // integrate xml comments
@@ -68,6 +104,8 @@ namespace Blockcore.Vault
                 {
                     c.IncludeXmlComments(XmlCommentsFilePath);
                 }
+
+                c.EnableAnnotations();
             });
 
             services.AddCors(o => o.AddPolicy("VaultPolicy", builder =>
@@ -103,6 +141,8 @@ namespace Blockcore.Vault
                 c.RoutePrefix = "docs";
                 c.SwaggerEndpoint("/docs/vault/openapi.json", "Blockcore Vault API");
             });
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

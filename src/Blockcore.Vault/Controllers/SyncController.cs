@@ -3,6 +3,7 @@ using Blockcore.Vault.Helpers;
 using Blockcore.Vault.Models;
 using Blockcore.Vault.Services;
 using Blockcore.Vault.Storage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace Blockcore.Vault.Controllers
 {
-
+    [Authorize]
     [ApiController]
+    [Produces("application/json")]
     [Route("/api/sync")]
     public class SyncController : ControllerBase
     {

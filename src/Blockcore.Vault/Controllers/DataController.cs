@@ -1,5 +1,6 @@
 ﻿using Blockcore.Vault.Helpers;
 using Blockcore.Vault.Storage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace Blockcore.Vault.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
+    [Produces("application/json")]
     [Route("api/data")]
     public class DataController : ControllerBase
     {
@@ -62,12 +65,14 @@ namespace Blockcore.Vault.Controllers
         //    //return Ok(1);
         //}
 
+        [AllowAnonymous]
         [HttpGet("all")]
         public ActionResult GetAll()
         {
             return Ok(money.GetAll());
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult Get(int? id)
         {
