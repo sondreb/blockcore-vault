@@ -42,13 +42,13 @@ namespace Blockcore.Vault.Models
         /// </summary>
         public string Url { get; set; }
 
-        public DateTime Added { get; set; }
+        public long Created { get; set; }
 
-        public DateTime Modified { get; set; }
+        public long Modified { get; set; }
 
-        public DateTime LastSeen { get; set; }
+        public long LastSeen { get; set; }
 
-        public DateTime LastFullSync { get; set; }
+        public long LastFullSync { get; set; }
 
         public string WellKnownConfiguration { get; set; }
 

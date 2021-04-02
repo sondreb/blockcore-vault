@@ -46,6 +46,8 @@ export class ApiService {
 
       headers = headers.append('Vault-Api-Key', this.appState.apiKey);
 
+      console.log(headers);
+
       return headers;
    }
 
@@ -57,6 +59,18 @@ export class ApiService {
 
    post<T>(url, data) {
       return this.http.post<T>(url, data, {
+         headers: this.createAuthorizationHeader()
+      });
+   }
+
+   put<T>(url, data) {
+      return this.http.put<T>(url, data, {
+         headers: this.createAuthorizationHeader()
+      });
+   }
+
+   delete<T>(url) {
+      return this.http.delete<T>(url, {
          headers: this.createAuthorizationHeader()
       });
    }

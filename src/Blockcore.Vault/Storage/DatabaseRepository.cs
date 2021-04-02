@@ -109,7 +109,7 @@ namespace Blockcore.Vault.Storage
                    Name                    TEXT NULL,
                    Description             TEXT NULL,
                    Url                     TEXT NULL,
-                   Added                   INTEGER NOT NULL,
+                   Created                 INTEGER NOT NULL,
                    Modified                INTEGER NOT NULL,
                    LastSeen                INTEGER NOT NULL,
                    LastFullSync            INTEGER NOT NULL,

@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     }
 
     // Get the name to display in loading screen!
-    this.getName();
+    // this.getName();
 
     setTimeout(() => {
       this.welcomeLogo = true;
@@ -111,10 +111,10 @@ export class AppComponent implements OnInit {
     this.welcomeName = name;
   }
 
-  getName() {
-    this.http.get<any>(this.baseUrl + '.auth/me').subscribe(result => {
-      this.parseToken(result);
-      console.log(result);
-    }, error => console.error(error));
-  }
+  // getName() {
+  //   this.http.get<any>(this.baseUrl + '.auth/me').subscribe(result => {
+  //     this.parseToken(result);
+  //     console.log(result);
+  //   }, error => console.error(error));
+  // }
 }

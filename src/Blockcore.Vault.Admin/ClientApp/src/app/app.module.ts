@@ -62,6 +62,7 @@ import { ValuesComponent } from './values/values.component';
 import { StateComponent } from './state/state.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SettingsComponent } from './settings/settings.component';
+import { VaultsComponent } from './vaults/vaults.component';
 
 
 
@@ -103,7 +104,8 @@ import { SettingsComponent } from './settings/settings.component';
     ReferralComponent,
     SignupComponent,
     ValuesComponent,
-    StateComponent
+    StateComponent,
+    VaultsComponent
   ],
   imports: [
     BrowserModule,

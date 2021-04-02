@@ -208,7 +208,7 @@ body {
 }
 
 .container {
-  height: calc(100% - 80px);
+  height: calc(100% - 64px);
 }
 
 .sidepanel-top
@@ -231,5 +231,11 @@ body {
 @media only screen and (max-width: 500px) {
   .sidepanel {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .container {
+    height: calc(100% - 56px);
   }
 }
