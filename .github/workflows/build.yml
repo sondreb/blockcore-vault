@@ -49,8 +49,7 @@ jobs:
           npm run build
 
       - name: Deploy
-        working-directory: src/Blockcore.Vault.Admin/ClientApp
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./src/Blockcore.Vault.Admin/ClientApp/dist
