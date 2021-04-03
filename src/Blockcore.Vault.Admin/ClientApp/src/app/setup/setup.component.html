@@ -2,7 +2,53 @@
 
   <div [class.mat-elevation-z8]="true" class="setup-section">
 
-    <h1>Choose a Hub</h1>
+    <p>
+      This page allows you to generate a valid and signed Vault Configuration that can be used to configure an
+      individual Blockcore Data Vault.
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline" class="input-full-width">
+        <mat-label>Id</mat-label>
+        <input matInput [(ngModel)]="id" autocomplete="off" placeholder="Public Key of your Data Vault identity">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-full-width">
+        <mat-label>Data Vault Identity Private Key</mat-label>
+        <input matInput [(ngModel)]="key" autocomplete="off" placeholder="Data Vault Identity Private Key">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="name" autocomplete="off" placeholder="Name of your Data Vault">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="8" autocomplete="off" [(ngModel)]="description"
+          placeholder="Description of your Data Vault"></textarea>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <button mat-flat-button color="primary" (click)="saveEdit()">Generate</button>&nbsp;
+      <button mat-stroked-button (click)="cancelEdit()">Clear</button>
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline" class="input-full-width">
+        <mat-label>Generated and Signed .well-known Configuration</mat-label>
+        <textarea matInput rows="12" [(ngModel)]="wellknownconfiguration"></textarea>
+      </mat-form-field>
+    </p>
+
+    <script>
+      $(document).ready(function() {
+        $('input').attr('autocomplete', 'off');
+      });
+    </script>
+
+    <!-- <h1>Choose a Hub</h1>
 
     <mat-form-field>
       <mat-label>Select an hub</mat-label>
@@ -10,18 +56,6 @@
         <mat-option *ngFor="let hub of hubs" [value]="hub.id">{{hub.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-
-    <!-- <mat-card class="request-card" *ngIf="loading">
-      <mat-card-header>
-        <mat-card-title>Loading Identity Profile...</mat-card-title>
-        <mat-card-subtitle>Loading Identity {{selectedHubId}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <i class="fas fa-cog fa-spin"></i>
-      </mat-card-content>
-    </mat-card> -->
-
-    <!-- <mat-card class="request-card" *ngIf="hub"  [@flipInYOnEnter] [@flipOutYOnLeave] [@enter] [@leave]> -->
 
     <mat-card class="request-card" *ngIf="hub"  [@flipInYOnEnter] [@flipOutYOnLeave]>
       <mat-card-header>
@@ -36,56 +70,8 @@
       <mat-card-actions>
         <button mat-stroked-button>Show Full Profile</button>
       </mat-card-actions>
-    </mat-card>
-
-    <!-- <div *ngIf="hub" [@enter] [@leave]>YEEEH!!</div> -->
-
-    <!-- <div [@rubberBand]="rubberState"></div>
-    <div [@collapse]="collapseState"></div> -->
+    </mat-card> -->
 
   </div>
 
 </div>
-
-<!-- <h1>Setup your Blockcore Hub</h1>
-
-<p>
-  Hi and welcome to your Blockcore Hub. There are a few configuration options you must decide before we can continue.
-</p>
-
-<a [routerLink]="['/dashboard']">Dashboard</a>
-<a [routerLink]="['/dashboard2']">Dashboard 2</a>
-<a [routerLink]="['/gateway']">Gateway</a>
-<a [routerLink]="['/identity']">Identity</a>
-
-<h2>Supported Chains:</h2>
-
-<div class="chains-home">
-  <ul>
-    <li class="chain-home-item" *ngFor="let chain of setup.chains">
-
-      <input [id]="'chain' + chain.name" type="checkbox">
-      <label [for]="'chain' + chain.name">
-        <img [ngClass]="{'mode-aware': chain.filter}" [src]="chain.icon">
-        {{chain.name}}
-      </label>
-    </li>
-  </ul>
-</div>
-
-<h2>Recovery Phrase:</h2>
-
-<i class="fas fa-key input-icon"></i>
-<input class="input-search box" type="search" [(ngModel)]="recoveryPhrase" placeholder="Recovery Phrase">
-
-<h2>Gateway:</h2>
-
-<i class="fas fa-link input-icon"></i>
-<input class="input-search box" type="search" [(ngModel)]="gateway" placeholder="Gateway">
-
-<button class="input-button">
-  
-  <i class="fas fa-save"></i>
-  <i class="fas fa-cog fa-spin"></i>
-
-   Save</button> -->

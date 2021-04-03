@@ -1,16 +1,7 @@
-<!-- <app-nav-menu class="app-header margin-not-bottom"></app-nav-menu>
-<div class="app-header-background"></div>
 
-<section class="app-content margin">
-  <router-outlet></router-outlet>
-</section>
+<!-- Uncomment to show splashloading dialog -->
 
-<app-footer class="app-footer margin"></app-footer>
-<div class="app-footer-background"></div> -->
-
-<!-- <div id="welcome" class="welcome" *ngIf="welcomeVisible" [@zoomOutOnLeave] [@fadeOutLeftBigOnLeave]></div> -->
-
-<div id="welcome" class="welcome noselect" *ngIf="welcomeVisible" [@fadeOutLeftBigOnLeave]>
+<!-- <div id="welcome" class="welcome noselect" *ngIf="welcomeVisible" [@fadeOutLeftBigOnLeave]>
   <div class="welcome-content">
 
     <div class="welcome-text">
@@ -21,7 +12,7 @@
     <img class="welcome-logo" src="assets/blockcore-light-small.png" *ngIf="welcomeLogo" [@fadeInDownOnEnter] [@fadeOutUpOnLeave]>
     <div class="welcome-backdrop"></div>
   </div>
-</div>
+</div> -->
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"

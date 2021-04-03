@@ -78,6 +78,20 @@ export class VaultsComponent implements OnDestroy {
     this.isEditing = false;
   }
 
+  onUrlEntered() {
+    // Do not use the API here, we don't want to send credentials on this query.
+    if (this.item.url.indexOf('/') == -1)
+    {
+      this.item.url += '/';
+    }
+
+    let configurationUrl = this.item.url + '/.well-known/vault-configuration.json';
+    
+    this.http.get(configurationUrl).subscribe(data => {
+      console.log(data);
+    });
+  }
+
   saveEdit() {
     // const document = {
     //   content: JSON.stringify(this.message.content)

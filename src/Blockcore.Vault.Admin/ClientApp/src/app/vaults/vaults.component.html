@@ -38,28 +38,28 @@
         </mat-form-field> -->
 
         <mat-form-field appearance="outline" class="input-full-width">
+          <mat-label>Url</mat-label>
+          <input matInput [(ngModel)]="item.url" placeholder="Url to Data Vault" (blur)="onUrlEntered()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="input-full-width">
           <mat-label>Id</mat-label>
-          <input matInput [(ngModel)]="item.id" placeholder="Category">
+          <input matInput readonly="true" [(ngModel)]="item.id" placeholder="Category">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="input-full-width">
           <mat-label>Name</mat-label>
-          <input matInput [(ngModel)]="item.name" placeholder="Key">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="input-full-width">
-          <mat-label>Url</mat-label>
-          <input matInput [(ngModel)]="item.url" placeholder="Value">
+          <input matInput readonly="true" [(ngModel)]="item.name" placeholder="Key">
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="input-full-width">
           <mat-label>Description</mat-label>
-          <textarea matInput rows="8" [(ngModel)]="item.description" placeholder="Description"></textarea>
+          <textarea matInput readonly="true" rows="8" [(ngModel)]="item.description" placeholder="Description"></textarea>
         </mat-form-field>
 
       </mat-card-content>
       <mat-card-actions>
-        <button mat-flat-button color="primary" (click)="saveEdit()">Save</button>
+        <button mat-flat-button [disabled]="!item.id" color="primary" (click)="saveEdit()">Save</button>
         <button mat-stroked-button (click)="cancelEdit()">Cancel</button>
       </mat-card-actions>
     </mat-card>
