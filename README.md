@@ -44,11 +44,28 @@ The Vault will be able to do Vault-to-Vault data syncronization to ensure decent
 
 Future updates will add the confidential storage capabilities with encrypted storage.
 
+## Tasks
+
+- Make an docker-compose setup to configure TIG (Telegraf, InfluxDB and Grafana) setup for all incoming data items submitted to the vault.
+
+- Finalize basic sync between vaults.
+
+- Finalize basic query API.
+
+- Support DID Resolving API.
+
+- Support filtering node type, allowing anyone to host specific set of data and ignore the rest.
+
 ## UI: Create VCs
 
 When a user create a VC, they can decide storage location. That can be local disk, their OneDrive/Google Drive synced local folder, 
 or they can pick Vault to publish the VC too, and verification Vault if they want. If a "Verification Vault" is selected, then the
 UI will show a loading indicator until the VC has been verified to have synced across from the "Target Vault" to the "Verification Vault".
+
+## Resources
+
+https://github.com/w3c-ccg/vc-http-api
+
 
 ## Attributions
 
