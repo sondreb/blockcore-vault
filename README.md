@@ -24,6 +24,18 @@ This is our work-in-progress to implement the standards for decentralized identi
 
 While we are commited to supporting the standard, our initial release of the software will use custom authentication and unencrypted storage.
 
+The Blockcore Vault is also an [verifiable data registry](https://w3c.github.io/did-core/#dfn-verifiable-data-registry), that can host and provide DID Documents and DIDs.
+
+## Deployment Modes
+
+The Blockcore Vault can be deployed and configured in various modes, including:
+
+- Permissionless and free public storage.
+- Limited  to approved DIDs only (only allow known entities to manage data).
+- Decentralized (multiple-nodes)
+- Centralized (single-node).
+- Filtered mode, used to present / host / marketplace a filtered set of VCs, e.g. "Crypto Company Registry" or "Restaurant Reviews".
+
 ## Development Plans
 
 The initial version of the Blockcore Vault will be a basic unencrypted storage API that can be utilize by apps to store user's data.
@@ -32,9 +44,15 @@ The Vault will be able to do Vault-to-Vault data syncronization to ensure decent
 
 Future updates will add the confidential storage capabilities with encrypted storage.
 
+## UI: Create VCs
+
+When a user create a VC, they can decide storage location. That can be local disk, their OneDrive/Google Drive synced local folder, 
+or they can pick Vault to publish the VC too, and verification Vault if they want. If a "Verification Vault" is selected, then the
+UI will show a loading indicator until the VC has been verified to have synced across from the "Target Vault" to the "Verification Vault".
+
 ## Attributions
 
-[Sondre Bjellås](https://www.sondreb.com/)
+[Sondre BjellÃ¥s](https://www.sondreb.com/)
 
 [Mukesh Murugan](https://codewithmukesh.com/blog/pagination-in-aspnet-core-webapi/)
 
