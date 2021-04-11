@@ -76,6 +76,10 @@ Future updates will add the confidential storage capabilities with encrypted sto
 
 - Support EDV/Confidential Storage specification, look to [bedrock-edv-storage](https://github.com/digitalbazaar/bedrock-edv-storage) for inspiration.
 
+## Keys and Formats
+
+Keys should be formatted as JSON Web Keys (JWK) and use the ES256K algorithm. Blockcore Vault does not support any additional formats in the initial development, support for alternatives will be adedd as required by the standard and what is implemented in the industry.
+
 ## UI: Create VCs
 
 When a user create a VC, they can decide storage location. That can be local disk, their OneDrive/Google Drive synced local folder, 
