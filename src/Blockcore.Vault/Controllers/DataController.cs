@@ -85,5 +85,29 @@ namespace Blockcore.Vault.Controllers
 
             // return Ok(_employeeRepository.GetEmployeeByID(id));
         }
+
+
+        // WIP: Example on VCs sent as either JSON or JWT.
+        //[HttpPost]
+        //public ActionResult Post([FromBody] string data)
+        //{
+        //    // If the submitted value is a JWT, we'll decode it into an object.
+        //    if (HttpContext.Request.ContentType == "application/jwt")
+        //    {
+
+        //    }
+        //    else
+        //    {
+        //        VaultServer item = new VaultServer();
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    store.InsertItem(item);
+        //    return Ok();
+        //}
     }
 }

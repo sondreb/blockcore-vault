@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -9,9 +10,11 @@ namespace Blockcore.Vault.Models
     public class DIDConfiguration
     {
         [JsonPropertyName("@context")]
-        public string[] Context { get; set; }
+        [JsonProperty("@context")]
+        public string Context { get; set; }
 
         [JsonPropertyName("linked_dids")]
-        public Identity[] LinkedIdentities { get; set; }
+        [JsonProperty("linked_dids")]
+        public object[] LinkedIdentities { get; set; }
     }
 }

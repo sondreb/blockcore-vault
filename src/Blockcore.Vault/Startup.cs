@@ -1,5 +1,6 @@
 using Blockcore.Vault.Authentication;
 using Blockcore.Vault.Managers;
+using Blockcore.Vault.Middleware;
 using Blockcore.Vault.Services;
 using Blockcore.Vault.Settings;
 using Blockcore.Vault.Storage;
@@ -119,10 +120,10 @@ namespace Blockcore.Vault
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
+            //}
 
             // Enable Cors
             app.UseCors("VaultPolicy");
@@ -145,6 +146,10 @@ namespace Blockcore.Vault
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            // Ensure we log all incoming and outgoing requests, can be sent to TIG setup.
+            // DISABLED: This does not work currently, at least not for integration tests.
+            // app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -53,7 +53,7 @@ namespace Blockcore.Vault.Controllers
         {
             var did = new DIDConfiguration();
 
-            did.Context = new string[] { "https://identity.foundation/.well-known/did-configuration/v1" };
+            did.Context = "https://identity.foundation/.well-known/did-configuration/v1";
 
             return Ok(did);
         }
