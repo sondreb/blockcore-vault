@@ -13,6 +13,7 @@ namespace Blockcore.Vault.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route(".well-known")]
+    [ApiExplorerSettings(GroupName = "Identity")]
     public class WellKnownController : ControllerBase
     {
         private readonly DatabaseRepository store;

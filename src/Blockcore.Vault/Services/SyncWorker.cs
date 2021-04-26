@@ -1,4 +1,5 @@
-﻿using Blockcore.Vault.Managers;
+﻿using Blockcore.Indexer.Storage.Mongo;
+using Blockcore.Vault.Managers;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,21 @@ namespace Blockcore.Vault.Services
     {
         private readonly SyncManager manager;
 
-        public SyncWorker(SyncManager manager)
+        private readonly MongoData data;
+
+        private readonly MongoBuilder builder;
+
+        public SyncWorker(SyncManager manager, MongoData data, MongoBuilder builder)
         {
             this.manager = manager;
+            this.data = data;
+            this.builder = builder;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            builder.Initialize();
+
             return manager.StartAsync(cancellationToken);
         }
 

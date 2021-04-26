@@ -7,6 +7,8 @@ namespace Blockcore.Vault.Models
 {
     public class VerifiableCredential
     {
+        public string Id { get; set; }
+
         public VerifiableCredential()
         {
             Type = new List<string>();

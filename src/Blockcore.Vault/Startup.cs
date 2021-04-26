@@ -1,3 +1,4 @@
+using Blockcore.Indexer.Storage.Mongo;
 using Blockcore.Vault.Authentication;
 using Blockcore.Vault.Managers;
 using Blockcore.Vault.Middleware;
@@ -37,7 +38,10 @@ namespace Blockcore.Vault
         {
             services.Configure<SyncSettings>(Configuration.GetSection("Sync"));
             services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
+            services.Configure<VaultSettings>(Configuration.GetSection("Vault"));
 
+            services.AddSingleton<MongoData>();
+            services.AddSingleton<MongoBuilder>();
             services.AddScoped<IDatabaseConnectionFactory, DatabaseConnectionFactory>();
             services.AddScoped<DatabaseRepository>();
             // services.AddScoped<DataStore>();
@@ -98,7 +102,15 @@ namespace Blockcore.Vault
                              }
                         });
 
-                c.SwaggerDoc("vault", new OpenApiInfo { Title = "Blockcore.Vault", Version = assemblyVersion });
+                c.SwaggerDoc("vault", new OpenApiInfo { Title = "Blockcore Vault API", Version = assemblyVersion });
+                c.SwaggerDoc("identity", new OpenApiInfo { Title = "Blockcore Identity API", Version = assemblyVersion });
+                c.SwaggerDoc("storage", new OpenApiInfo { Title = "Blockcore Storage API", Version = assemblyVersion });
+                // c.SwaggerDoc("vault", new OpenApiInfo { Title = "Vault API", Version = assemblyVersion });
+                c.SwaggerDoc("sync", new OpenApiInfo { Title = "Blockcore Sync API", Version = assemblyVersion });
+
+                c.DocInclusionPredicate((docName, apiDesc) => {
+                    return apiDesc.RelativePath.Contains(docName);
+                });
 
                 // integrate xml comments
                 if (File.Exists(XmlCommentsFilePath))
@@ -141,6 +153,9 @@ namespace Blockcore.Vault
             {
                 c.RoutePrefix = "docs";
                 c.SwaggerEndpoint("/docs/vault/openapi.json", "Blockcore Vault API");
+                c.SwaggerEndpoint("/docs/identity/openapi.json", "Blockcore Identity API");
+                c.SwaggerEndpoint("/docs/storage/openapi.json", "Blockcore Storage API");
+                c.SwaggerEndpoint("/docs/sync/openapi.json", "Blockcore Sync API");
             });
 
             app.UseAuthentication();

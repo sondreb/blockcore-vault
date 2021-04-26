@@ -22,6 +22,7 @@ namespace Blockcore.Vault.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/vault")]
+    [ApiExplorerSettings(GroupName = "Vault")]
     public class VaultController : ControllerBase
     {
         private readonly IMoney money;
@@ -64,7 +65,7 @@ namespace Blockcore.Vault.Controllers
             return Ok(item);
         }
 
-        public DIDDocument ResolveDidDocument(string did)
+        private DIDDocument ResolveDidDocument(string did)
         {
             var file = System.IO.File.ReadAllText(Path.Combine("Data", "did-document-resolution.json"));
 
@@ -82,7 +83,7 @@ namespace Blockcore.Vault.Controllers
             return didDocumentResolution.DIDDocument;
         }
 
-        public DomainLinkageCredential ParseJwtVC<T>(string data)
+        private DomainLinkageCredential ParseJwtVC<T>(string data)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 

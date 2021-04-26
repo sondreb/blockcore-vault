@@ -1,7 +1,10 @@
-﻿using Blockcore.Vault.Helpers;
+﻿using Blockcore.Indexer.Storage.Mongo;
+using Blockcore.Vault.Helpers;
+using Blockcore.Vault.Models;
 using Blockcore.Vault.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +12,19 @@ using System.Threading.Tasks;
 
 namespace Blockcore.Vault.Controllers
 {
+    public class DataRequest
+    { 
+        public string Operation { get; set; }
+
+        public string Payload { get; set; }
+    }
+
     [AllowAnonymous]
     [ApiController]
     [Produces("application/json")]
-    [Route("api/data")]
-    public class DataController : ControllerBase
+    [Route("api/storage")]
+    [ApiExplorerSettings(GroupName = "Storage")]
+    public class StorageController : ControllerBase
     {
         private readonly IMoney money;
 
@@ -21,11 +32,14 @@ namespace Blockcore.Vault.Controllers
 
         private readonly DatabaseRepository store;
 
-        public DataController(IMoney money, IDatabaseConnectionFactory db, DatabaseRepository store)
+        private readonly MongoData data;
+
+        public StorageController(IMoney money, IDatabaseConnectionFactory db, DatabaseRepository store, MongoData data)
         {
             this.money = money;
             this.db = db;
             this.store = store;
+            this.data = data;
         }
 
         [HttpGet("list")]
@@ -86,28 +100,34 @@ namespace Blockcore.Vault.Controllers
             // return Ok(_employeeRepository.GetEmployeeByID(id));
         }
 
+        [HttpPost]
+        public ActionResult Post([FromBody] DataRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        // WIP: Example on VCs sent as either JSON or JWT.
-        //[HttpPost]
-        //public ActionResult Post([FromBody] string data)
-        //{
-        //    // If the submitted value is a JWT, we'll decode it into an object.
-        //    if (HttpContext.Request.ContentType == "application/jwt")
-        //    {
+            var jwt = request.Payload.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
-        //    }
-        //    else
-        //    {
-        //        VaultServer item = new VaultServer();
-        //    }
+            if (jwt.Length != 3)
+            {
+                throw new VerifiableCredentialException("The submitted VC is not in correct JWT format.");
+            }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+            if (request.Operation != "create")
+            {
+                throw new VerifiableCredentialException("The operation only supports the create operation.");
+            }
 
-        //    store.InsertItem(item);
-        //    return Ok();
-        //}
+            var vc = new VerifiableCredential();
+            vc.Id = jwt[2]; // The signature is the identifier.
+            vc.Proof = new JwtProof2020 { Jwt = request.Payload };
+
+            // If the same JWT is supplied, we will crash and not update the existing one. It should not be possible to update existing JWTs.
+            data.VerifiableCredential.InsertOne(vc);
+
+            return Ok();
+        }
     }
 }

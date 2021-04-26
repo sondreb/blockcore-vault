@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -11,10 +12,12 @@ namespace Blockcore.Vault.Models
     {
         [JsonPropertyName("id")]
         [JsonProperty("id")]
+        [MaxLength(20)] // Same requirements as the Sidetree Protocol Specification: https://github.com/ownyourdata/did-ion
         public string Id { get; set; }
 
         [JsonPropertyName("type")]
         [JsonProperty("type")]
+        [MaxLength(30)]
         public string Type { get; set; }
 
         [JsonPropertyName("serviceEndpoint")]

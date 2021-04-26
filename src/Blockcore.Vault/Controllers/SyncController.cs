@@ -16,6 +16,7 @@ namespace Blockcore.Vault.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("/api/sync")]
+    [ApiExplorerSettings(GroupName = "Sync")]
     public class SyncController : ControllerBase
     {
         private readonly DatabaseRepository store;

@@ -26,6 +26,22 @@ While we are commited to supporting the standard, our initial release of the sof
 
 The Blockcore Vault is also an [verifiable data registry](https://w3c.github.io/did-core/#dfn-verifiable-data-registry), that can host and provide DID Documents and DIDs.
 
+## Registration and Data Flow
+
+1. Vault A adds Vault B by supplying the domain name URL for the vault.
+1. Vault A stores the did-configuration.json retrieved from the .well-known URL.
+1. Vault A performs DID Resolve to retrieve the DID Document for Vault B identity.
+1. Whenever Vault A must send encrypted data to Vault B, it will utilize the "authentication" key provided in the DID Document. Consider if the rest of communication should be encrypted or not.
+1. Vault A sends an request to Vault B to be accepted as a trusted node.
+1. Vault B must approve the request, which does include the DID of Vault A. Vault B will perform download of did-configuration and then DID Resolve to get the DID Document of Vault A. Vault B can perform manual or automatic approval.
+1. Upon approval, Vault B will inform Vault A which will update the local metadata.
+
+Mutual trust between Vault has now been established.
+
+1. Vault A 
+
+
+
 ## Features
 
 ### Data API
@@ -36,13 +52,23 @@ Update and retrieve data in the form of Verifiable Credentials. This will/should
 
 This API is used to sync data across multiple Blockcore Vault nodes.
 
+NOTES:
+
+Sync should probably only happen over Web Socket protocol and not REST API. It would be slower and require a lot more orchestration to do REST based communication for data sync.
+
+With Web Socket, the node can simply start pushing out messages with all the primary key it has, or ask to receive a list of primary keys and it would receive messages in batches.
+
+Assumptions:
+
+- Primary Key will be signature of the JWT. This must be verified if it's acceptable. The primary key will be left as base64url encoded to reduce processing.
+- Consider adding more checks on sync to optimize the sync, like storing last sync date e.g. with the various Vault instances registered.
+
 ### Vault API
 
 This API is the management API for the Blockcore Vault. Considering renaming this API to "Management" to avoid naming confusion. Maybe this API should be the "edv" or "dv", meaning "Encrypted Data Vault" or "Data Vault", which was the previous name of the "Confidential Storage" specification. Maybe an "Storage API" could be introduced too.
 
 - CRUD operations for Blockcore Vault instances.
 - When adding a new vault, the public available did-configuration.json is read and parsed and used to store the metadata.
-
 
 ## Deployment Modes
 
@@ -85,6 +111,12 @@ Keys should be formatted as JSON Web Keys (JWK) and use the ES256K algorithm. Bl
 When a user create a VC, they can decide storage location. That can be local disk, their OneDrive/Google Drive synced local folder, 
 or they can pick Vault to publish the VC too, and verification Vault if they want. If a "Verification Vault" is selected, then the
 UI will show a loading indicator until the VC has been verified to have synced across from the "Target Vault" to the "Verification Vault".
+
+## Future Improvements
+
+For communication between Vault, the `libp2p` library could be utilize to get a lot more protocol support. `libp2p` is still under development and there is no .NET implementation available.
+
+The library/specification does not currently rely decentralized identity specification, which is what Blockcore Vault is implemented upon.
 
 ## Resources
 
